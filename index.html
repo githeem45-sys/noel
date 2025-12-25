@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎄 Noel dành cho cậu 🎄</title>
+
+<style>
+body{
+    margin:0;
+    background:linear-gradient(#081a2b,#000);
+    overflow:hidden;
+    font-family:Arial,sans-serif;
+    color:white;
+    text-align:center;
+}
+
+/* ===== Tuyết rơi ===== */
+.snow{
+    position:fixed;
+    top:-10px;
+    color:white;
+    pointer-events:none;
+    animation:fall linear infinite;
+}
+@keyframes fall{
+    to{transform:translateY(110vh);}
+}
+
+/* ===== Tiêu đề ===== */
+h1{
+    margin-top:15px;
+    font-size:22px;
+}
+p{
+    opacity:0.8;
+    margin-top:4px;
+}
+
+/* ===== Ông già Noel ===== */
+.santa{
+    position:fixed;
+    top:20px;
+    left:20px;
+    font-size:50px;
+    animation:float 3s ease-in-out infinite;
+}
+@keyframes float{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-10px);}
+}
+
+/* ===== Cây thông siêu to ===== */
+.tree{
+    position:absolute;
+    bottom:60px;
+    left:50%;
+    transform:translateX(-50%);
+    width:420px;
+    height:560px;
+}
+
+.layer{
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    width:0;height:0;
+    border-left:200px solid transparent;
+    border-right:200px solid transparent;
+    border-bottom:220px solid #0f8b4c;
+}
+.layer.top{
+    top:0;
+    border-left-width:120px;
+    border-right-width:120px;
+    border-bottom-width:160px;
+}
+.layer.mid{
+    top:120px;
+}
+.layer.bot{
+    top:260px;
+    border-left-width:240px;
+    border-right-width:240px;
+    border-bottom-width:260px;
+}
+
+/* Thân cây */
+.trunk{
+    position:absolute;
+    bottom:-50px;
+    left:50%;
+    transform:translateX(-50%);
+    width:60px;
+    height:80px;
+    background:#5a2d0c;
+}
+
+/* ===== Thư ===== */
+.letter{
+    position:absolute;
+    background:white;
+    color:black;
+    padding:8px 12px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:13px;
+    transition:transform .3s;
+}
+.letter:hover{
+    transform:scale(1.1);
+}
+
+/* ===== Hộp thư mở ra ===== */
+#modal{
+    position:fixed;
+    top:0;left:0;
+    width:100%;height:100%;
+    background:rgba(0,0,0,.6);
+    display:none;
+    align-items:center;
+    justify-content:center;
+}
+
+#content{
+    background:white;
+    color:black;
+    padding:25px;
+    border-radius:14px;
+    max-width:80%;
+    animation:pop .5s ease;
+}
+@keyframes pop{
+    from{transform:scale(.5);opacity:0;}
+    to{transform:scale(1);opacity:1;}
+}
+
+button{
+    margin-top:15px;
+    padding:6px 14px;
+    border:none;
+    border-radius:6px;
+}
+
+/* ===== Nút nhạc ===== */
+.music{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    background:white;
+    color:black;
+    padding:10px 14px;
+    border-radius:20px;
+    font-size:12px;
+    cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🎵 Nhạc Noel nhẹ -->
+<audio id="music" loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/12/09/audio_7e44b50e94.mp3" type="audio/mpeg">
+</audio>
+
+<div class="music" onclick="playMusic()">🎵 Bật nhạc Noel</div>
+
+<!-- 🎅 Ông già Noel -->
+<div class="santa">🎅</div>
+
+<h1>🎄 Noel này tớ có điều mu ốn nói cho Nguyễn Hoàng Kim Ngân🎄</h1>
+<p>Gửi riêng cho cậu💗</p>
+
+<!-- 🎄 Cây thông -->
+<div class="tree">
+    <div class="layer top"></div>
+    <div class="layer mid"></div>
+    <div class="layer bot"></div>
+
+    <!-- 📩 Thư -->
+    <div class="letter" style="top:60px;left:190px"
+      onclick="openLetter('Chúc cậu một mùa Noel thật ấm áp ❄️')">✉️</div>
+
+    <div class="letter" style="top:180px;left:140px"
+      onclick="openLetter('mong cho co gai mua dong ngay nao cung vui ve 💖')">✉️</div>
+
+    <div class="letter" style="top:300px;left:220px"
+      onclick="openLetter('hanh phuc la duoc roi🎁')">✉️</div>
+
+    <div class="trunk"></div>
+</div>
+
+<!-- 💌 Modal thư -->
+<div id="modal" onclick="closeLetter()">
+  <div id="content"></div>
+</div>
+
+<script>
+function openLetter(text){
+    document.getElementById("content").innerHTML =
+        text + "<br><button onclick='closeLetter()'>Đóng</button>";
+    document.getElementById("modal").style.display="flex";
+}
+
+function closeLetter(){
+    document.getElementById("modal").style.display="none";
+}
+
+function playMusic(){
+    document.getElementById("music").play();
+}
+
+/* Tuyết */
+for(let i=0;i<50;i++){
+    let s=document.createElement("div");
+    s.className="snow";
+    s.innerHTML="❄";
+    s.style.left=Math.random()*100+"vw";
+    s.style.fontSize=10+Math.random()*12+"px";
+    s.style.animationDuration=4+Math.random()*6+"s";
+    document.body.appendChild(s);
+}
+</script>
+
+</body>
+</html>
